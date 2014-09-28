@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"/>
-  <script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript">
     $(document).ready(function () {
       $('#cmd').on('keydown', function (e) {
         e.preventDefault();
@@ -21,11 +21,11 @@
 <body>
   <div>
     <label for="id">Arduino client ID</label>
-    <input id="id"></input>
+    <input id="id" type="text"/>
   </div>
   <div>
     <label for="cmd">Command (W/A/S/D)</label>
-    <input id="cmd"></input>
+    <input id="cmd" type="text"/>
   </div>
   <div>
     <span id="response"></span>

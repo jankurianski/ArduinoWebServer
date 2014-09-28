@@ -1,6 +1,6 @@
 var http = require('http');
 var url = require('url');
-var fs = requre('fs');
+var fs = require('fs');
 var port = process.env.PORT || 1337;
 
 // client ID -> true
@@ -20,8 +20,8 @@ function setNextCmd(req_url, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   if (knownClients[id]) {
     nextCmds[id] = req_url.query.cmd;
-    var processed = processCmds(id);
-    res.end('Command ' + (processed ? 'processed' : 'queued') + '.\n');
+    processCmds(id);
+    res.end('Command accepted.\n');
   } else {
     res.end('Command ignored (Arduino not listening).\n');
   }
@@ -33,7 +33,7 @@ function setNextCmd(req_url, res) {
 function wantCmd(req_url, res) {
   var id = req_url.query.id;
   knownClients[id] = true;
-  wantCmd[id] = res;
+  wantCmds[id] = res;
   processCmds(id);
 }
 
@@ -47,7 +47,7 @@ function processCmds(id) {
       delete wantCmds[id];
       delete nextCmds[id];
       res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end(cmd);
+      res.end(cmd + '\n');
     }
   }
 }
@@ -59,11 +59,11 @@ http.createServer(function (req, res) {
     wantCmd(req_url, res);
   else if (req_url.pathname == '/setNextCmd')
     setNextCmd(req_url, res);
-  else if (req_url.pathname == '/') {
+  else if (req_url.pathname == '/')
     fs.readFile('./index.html', function(err, data) {
       res.end(data);
     });
-  } else {
+  else {
     res.writeHead(404, {'Content-Type': 'text/plain'});
     res.end('Not found\n');
   }
