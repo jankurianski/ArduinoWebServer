@@ -14,7 +14,13 @@
               $('#response').text(data);
             }
         });
-      })
+      });
+
+      // Prepopulate ID so I can give out links like
+      // blah.com/#myrobot to drive a particular robot.
+      var hash = window.location.hash;
+      if (hash)
+        $('#id').val(hash.substring(0));
     });
   </script>
 </head>
