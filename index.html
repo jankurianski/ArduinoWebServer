@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"/>
+  <script>
+    $(document).ready(function () {
+      $('#cmd').on('keydown', function (e) {
+        e.preventDefault();
+        var cmd = String.fromCharCode(e.which);
+        $.ajax({
+            type: 'POST',
+            url: '/setNextCmd?id='+$('#id').val()+'&cmd='+cmd,
+            success: function (data) {
+              $('#response').text(data);
+            }
+        });
+      })
+    });
+  </script>
+</head>
+<body>
+  <div>
+    <label for="id">Arduino client ID</label>
+    <input id="id"></input>
+  </div>
+  <div>
+    <label for="cmd">Command (W/A/S/D)</label>
+    <input id="cmd"></input>
+  </div>
+  <div>
+    <span id="response"></span>
+  </div>
+</body>
+</html>
