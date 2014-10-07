@@ -19,9 +19,10 @@ function setNextCmd(req_url, res) {
   var id = req_url.query.id;
   res.writeHead(200, {'Content-Type': 'text/plain'});
   if (knownClients[id]) {
+    var overrode = !!nextCmds[id];
     nextCmds[id] = req_url.query.cmd;
     processCmds(id);
-    res.end('Command accepted.\n');
+    res.end('Command ' + (overrode ? 'overridden' : 'accepted') + '.\n');
   } else {
     res.end('Command ignored (Arduino not listening).\n');
   }
